@@ -116,10 +116,8 @@ public class Blackjack extends GraphicsProgram{
     }
 
     private void hit() {
-        dealer.hit();
         player.hit();
 
-        checkDealerWin();
         checkWin();
 
         System.out.println(player.getTotal());
@@ -127,7 +125,14 @@ public class Blackjack extends GraphicsProgram{
     }
 
     private void stay() {
-        dealer.hit();
+        dealer.flipCard(0);
+        while(dealer.getTotal() < 17){
+            dealer.hit();
+            if (dealer.getTotal() > player.getTotal()){
+                dealerWin();
+            }
+            pause(50);
+        }
         checkDealerWin();
         checkWin();
 
@@ -144,12 +149,16 @@ public class Blackjack extends GraphicsProgram{
         }
     }
 
-    private void checkDealerWin(){
+    private boolean checkDealerWin(){
         if (dealer.getTotal() > 21){
             Dialog.showMessage("Win");
-            playerWin();
+            dealerWin();
+            return false;
         } else if (player.getTotal() == 21){
             dealerWin();
+            return true;
+        } else {
+            return false;
         }
     }
 
