@@ -65,6 +65,9 @@ public class Blackjack extends GraphicsProgram{
     public void run() {
         this.getMenuBar().setVisible(false);
 
+        hitButton.setVisible(false);
+        stayButton.setVisible(false);
+
 
 
         System.out.println(player.getTotal());
@@ -112,13 +115,15 @@ public class Blackjack extends GraphicsProgram{
         add(player, 50, getHeight()-player.getHeight());
         add(dealer, 50, dealer.getHeight());
         checkDealerWin();
-        checkWin();
+        checkWin(player.getTotal());
+        hitButton.setVisible(true);
+        stayButton.setVisible(true);
     }
 
     private void hit() {
         player.hit();
 
-        checkWin();
+        checkWin(player.getTotal());
 
         System.out.println(player.getTotal());
         System.out.println(dealer.getTotal());
@@ -126,7 +131,7 @@ public class Blackjack extends GraphicsProgram{
 
     private void stay() {
         dealer.flipCard(0);
-        while(dealer.getTotal() < 17){
+        while(dealer.getTotal() <= 17){
             dealer.hit();
             if (dealer.getTotal() > player.getTotal()){
                 dealerWin();
@@ -134,17 +139,17 @@ public class Blackjack extends GraphicsProgram{
             pause(50);
         }
         checkDealerWin();
-        checkWin();
+        checkWin(player.getTotal());
 
-        System.out.println(player.getTotal());
         System.out.println(dealer.getTotal());
+        System.out.println(player.getTotal());
+
     }
 
-    private void checkWin() {
-        if (player.getTotal() > 21){
-            Dialog.showMessage("Bust");
+    private void checkWin(int a) {
+        if (a > 21){
             dealerWin();
-        } else if (player.getTotal() == 21) {
+        } else if (a == 21) {
             playerWin();
         }
     }
@@ -167,6 +172,8 @@ public class Blackjack extends GraphicsProgram{
         bank -= wager;
         wager = 0;
         refreshLabels();
+        Dialog.showMessage("Win");
+        restart();
     }
 
     private void dealerWin(){
@@ -174,12 +181,21 @@ public class Blackjack extends GraphicsProgram{
         bank += wager;
         wager = 0;
         refreshLabels();
+        Dialog.showMessage("Bust");
+        restart();
     }
 
     private void refreshLabels() {
         bankLabel.setLabel("Bank: " + bank);
         wagerLabel.setLabel("Wager: " + wager);
         balanceLabel.setLabel("Balance: " + balance);
+    }
+
+    private void restart(){
+        hitButton.setVisible(false);
+        stayButton.setVisible(false);
+        deck.shuffle();
+
     }
 
     public static void main(String[] args) {

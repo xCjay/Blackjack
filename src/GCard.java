@@ -31,8 +31,8 @@ public class GCard extends GCompound {
         add(border);
 
         //make a GRect for the back of the card
-        GRect back = new GRect(107, 150);
-        back.setFillColor(Color.pink);
+        back = new GRect(107, 150);
+        back.setFillColor(Color.red);
         back.setFilled(true);
 
         // add the back to the compound
@@ -49,6 +49,7 @@ public class GCard extends GCompound {
 
     public void flip(){
         card.flip();
+        this.back.setVisible(!this.back.isVisible());
     }
 
     public boolean getFaceUp(){
