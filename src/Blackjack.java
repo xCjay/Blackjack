@@ -34,8 +34,7 @@ public class Blackjack extends GraphicsProgram{
         this.setBackground(Color.pink);
 
         deck = new Deck();
-        dealer = new GHand(new Hand(deck, true));
-        player = new GHand(new Hand(deck, false));
+
 
 
         playButton = new JButton("Play");
@@ -70,8 +69,8 @@ public class Blackjack extends GraphicsProgram{
 
 
 
-        System.out.println(player.getTotal());
-        System.out.println(dealer.getTotal());
+        System.out.println( "player" +player.getTotal());
+        System.out.println("dealer " +dealer.getTotal());
     }
 
     @Override
@@ -112,6 +111,10 @@ public class Blackjack extends GraphicsProgram{
     private void play() {
         wager();
 
+        dealer = new GHand(new Hand(deck, true));
+        player = new GHand(new Hand(deck, false));
+
+
         add(player, 50, getHeight()-player.getHeight());
         add(dealer, 50, dealer.getHeight());
         checkDealerWin();
@@ -125,15 +128,18 @@ public class Blackjack extends GraphicsProgram{
 
         checkWin(player.getTotal());
 
-        System.out.println(player.getTotal());
-        System.out.println(dealer.getTotal());
+        System.out.println( "player" +player.getTotal());
+        System.out.println("dealer " +dealer.getTotal());
     }
 
     private void stay() {
+
+
         dealer.flipCard(0);
+
         while(dealer.getTotal() <= 17){
             dealer.hit();
-            if (dealer.getTotal() > player.getTotal()){
+            if (dealer.getTotal() >= player.getTotal()){
                 dealerWin();
             }
             pause(50);
@@ -141,8 +147,8 @@ public class Blackjack extends GraphicsProgram{
         checkDealerWin();
         checkWin(player.getTotal());
 
-        System.out.println(dealer.getTotal());
-        System.out.println(player.getTotal());
+        System.out.println( "player" +player.getTotal());
+        System.out.println("dealer " +dealer.getTotal());
 
     }
 
@@ -195,6 +201,8 @@ public class Blackjack extends GraphicsProgram{
         hitButton.setVisible(false);
         stayButton.setVisible(false);
         deck.shuffle();
+        remove(dealer);
+        remove(player);
 
     }
 
