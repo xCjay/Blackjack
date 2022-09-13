@@ -69,8 +69,7 @@ public class Blackjack extends GraphicsProgram{
 
 
 
-        System.out.println( "player" +player.getTotal());
-        System.out.println("dealer " +dealer.getTotal());
+
     }
 
     @Override
@@ -109,6 +108,11 @@ public class Blackjack extends GraphicsProgram{
     }
 
     private void play() {
+
+        if(balance <= 0){
+            Dialog.showMessage("No more money available");
+        }
+
         wager();
 
         dealer = new GHand(new Hand(deck, true));
@@ -128,8 +132,7 @@ public class Blackjack extends GraphicsProgram{
 
         checkWin(player.getTotal());
 
-        System.out.println( "player" +player.getTotal());
-        System.out.println("dealer " +dealer.getTotal());
+
     }
 
     private void stay() {
@@ -147,8 +150,7 @@ public class Blackjack extends GraphicsProgram{
         checkDealerWin();
         checkWin(player.getTotal());
 
-        System.out.println( "player" +player.getTotal());
-        System.out.println("dealer " +dealer.getTotal());
+
 
     }
 
@@ -162,7 +164,6 @@ public class Blackjack extends GraphicsProgram{
 
     private boolean checkDealerWin(){
         if (dealer.getTotal() > 21){
-            Dialog.showMessage("Win");
             dealerWin();
             return false;
         } else if (player.getTotal() == 21){
